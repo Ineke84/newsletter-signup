@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const https = require("https");
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended:true}));
@@ -35,13 +35,12 @@ app.post("/", function (req, res){
     };
 
     const jsonData = JSON.stringify(data);
-
-    const mailChimpKey = "82374ba14f1e98a82dde2f7b9920025c-us13";
+    const mailChimpKey = "e0b755fe813acdcb1db9d9a46fb7eb7e-us13";
     const listId = "e612cd115d"
     const url = "https://us13.api.mailchimp.com/3.0/lists/" + listId;
     const options = {
         method : "POST",
-        auth : "ineke:82374ba14f1e98a82dde2f7b9920025c-us13"
+        auth : "ineke:e0b755fe813acdcb1db9d9a46fb7eb7e-us13"
     }
 
     const request = https.request(url, options, function(response){
@@ -57,7 +56,7 @@ app.post("/", function (req, res){
         })
     })
 
-//request.write(jsonData);
+request.write(jsonData);
 request.end();
 
     console.log (firstName + " " + lastName + " has subscribed with " + email);
@@ -69,6 +68,6 @@ app.post("/failure", function (req, res){
 
 })
 
-app.listen(port, function () {
+app.listen(port || 3000, function () {
     console.log("Server is running at port " + port);
 })
