@@ -3,7 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const https = require("https");
-const key = require("./config");
+const key = process.env.mailChimpKey2;
 
 const app = express();
 const port = process.env.PORT;
@@ -36,12 +36,11 @@ app.post("/", function (req, res){
     };
 
     const jsonData = JSON.stringify(data);
-    const mailChimp = config.mailChimpKey;
     const listId = "e612cd115d"
     const url = "https://us13.api.mailchimp.com/3.0/lists/" + listId;
     const options = {
         method : "POST",
-        auth : "ineke:" + mailChimp
+        auth : "ineke:" + key
     }
 
     const request = https.request(url, options, function(response){
